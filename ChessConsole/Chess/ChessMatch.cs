@@ -34,12 +34,17 @@ internal sealed class ChessMatch
 
     private void InitialSetup()
     {
-        board.PlacePiece(new Rook(board, Color.WHITE), new Position(0, 0));
-        board.PlacePiece(new Rook(board, Color.WHITE), new Position(0, 7));
-        board.PlacePiece(new King(board, Color.WHITE), new Position(7, 4));
+        PlaceNewPiece('A', 1, new Rook(board, Color.WHITE));
+        PlaceNewPiece('a', 8, new Rook(board, Color.WHITE));
+        PlaceNewPiece('e', 1, new King(board, Color.WHITE));
 
-        board.PlacePiece(new Rook(board, Color.BLACK), new Position(7, 7));
-        board.PlacePiece(new Rook(board, Color.BLACK), new Position(7, 0));
-        board.PlacePiece(new King(board, Color.BLACK), new Position(0, 4));
+        PlaceNewPiece('h', 1, new Rook(board, Color.BLACK));
+        PlaceNewPiece('h', 8, new Rook(board, Color.BLACK));
+        PlaceNewPiece('e', 8, new King(board, Color.BLACK));
+    }
+
+    private void PlaceNewPiece(char column, int row, ChessPiece chessPiece)
+    {
+        board.PlacePiece(chessPiece, new ChessPosition(column, row).ToPosition());
     }
 }
