@@ -11,7 +11,8 @@ internal sealed class King : ChessPiece
 
     protected override bool[,] PossibleMoves()
     {
-        throw new NotImplementedException();
+        bool[,] possibleMovesMatrix = new bool[Board.BOARD_SIZE, Board.BOARD_SIZE];
+        return possibleMovesMatrix;
     }
 
     public override string ToString()
