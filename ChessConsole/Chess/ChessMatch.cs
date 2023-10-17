@@ -34,7 +34,9 @@ internal sealed class ChessMatch
 
     public bool[,] PossibleMoves(ChessPosition sourcePosition)
     {
-        throw new NotImplementedException();
+        Position position = sourcePosition.ToPosition();
+        ValidadeSourcePosition(position);
+        return board.Piece(position)!.PossibleMoves();
     }
 
     public ChessPiece? PerformChessMove(ChessPosition sourcePosition, ChessPosition targetPosition)
@@ -42,7 +44,8 @@ internal sealed class ChessMatch
         Position source = sourcePosition.ToPosition();
         Position target = targetPosition.ToPosition();
 
-        ValidatePositions(source, target);
+        ValidadeSourcePosition(source);
+        ValidadeTargetPosition(source, target);
 
         Piece? capturedPiece = MakeMove(source, target);
 
@@ -54,13 +57,16 @@ internal sealed class ChessMatch
         throw new NotImplementedException();
     }
 
-    private void ValidatePositions(Position source, Position target)
+    private void ValidadeSourcePosition(Position source)
     {
         if (!board.IsThereAPiece(source))
         {
             throw new ChessException($"There is no piece on the source position '{ChessPosition.FromPosition(source)}'!");
         }
+    }
 
+    private void ValidadeTargetPosition(Position source, Position target)
+    {
         Piece sourcePiece = board.Piece(source)!;
 
         if (!sourcePiece.IsThereAnyPossibleMove())
