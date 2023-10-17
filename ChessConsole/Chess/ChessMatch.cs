@@ -60,6 +60,10 @@ internal sealed class ChessMatch
         {
             throw new ChessException($"There is no piece on the source position '{ChessPosition.FromPosition(position)}'!");
         }
+        if (!board.Piece(position)!.IsThereAnyPossibleMove())
+        {
+            throw new ChessException("There is no possible moves for the chosen piece!");
+        }
     }
 
     private Piece? MakeMove(Position source, Position target)
