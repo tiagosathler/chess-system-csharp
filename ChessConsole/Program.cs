@@ -1,4 +1,5 @@
-﻿using ChessConsole.Boardgame;
+﻿using ChessConsole.Chess;
+using ChessConsole.UserInterface;
 
 namespace ChessConsole;
 
@@ -6,6 +7,7 @@ internal static class Program
 {
     private static void Main(string[] args)
     {
-        Board board = new(8, 8);
+        ChessMatch chessMatch = new();
+        UI.PrintBoard(chessMatch.GetPieces());
     }
 }
