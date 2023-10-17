@@ -1,5 +1,6 @@
 ﻿using ChessConsole.Boardgame;
 using ChessConsole.Chess;
+using System.Text;
 
 namespace ChessConsole.UserInterface;
 
@@ -23,11 +24,22 @@ internal static class UI
     {
         if (chessPiece == null)
         {
-            Console.Write("-");
+            Console.Write($"{Colors.GREEN}-{Colors.RESET}");
         }
         else
         {
-            Console.Write(chessPiece);
+            StringBuilder sb = new("\x1b[1m");
+
+            switch (chessPiece.Color)
+            {
+                case Color.WHITE: { sb.Append(Colors.WHITE); break; }
+                case Color.BLACK: { sb.Append(Colors.YELLOW); break; }
+            }
+
+            sb.Append(chessPiece);
+            sb.Append(Colors.RESET);
+
+            Console.Write(sb);
         }
         Console.Write(" ");
     }
