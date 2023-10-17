@@ -58,7 +58,7 @@ internal sealed class ChessMatch
     {
         if (!board.IsThereAPiece(position))
         {
-            throw new ChessException($"There is no piece on the position {position}");
+            throw new ChessException($"There is no piece on the source position '{ChessPosition.FromPosition(position)}'!");
         }
     }
 
