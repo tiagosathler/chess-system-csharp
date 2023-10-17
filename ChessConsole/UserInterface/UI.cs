@@ -9,15 +9,37 @@ internal static class UI
 {
     internal static void PrintBoard(ChessPiece[,] chessPieces)
     {
+        Console.Clear();
+
         for (int i = 0; i < Board.BOARD_SIZE; i++)
         {
             Console.Write($"{Board.BOARD_SIZE - i} ");
             for (int j = 0; j < Board.BOARD_SIZE; j++)
             {
-                PrintPiece(chessPieces[i, j]);
+                PrintPiece(chessPieces[i, j], false);
             }
             Console.WriteLine();
         }
+
+        Console.WriteLine("  a b c d e f g h");
+    }
+
+    internal static void PrintBoard(ChessPiece[,] pieces, bool[,] possibleMoves)
+    {
+        Console.Clear();
+
+        for (int i = 0; i < Board.BOARD_SIZE; i++)
+        {
+            Console.Write($"{Board.BOARD_SIZE - i} ");
+
+            for (int j = 0; j < Board.BOARD_SIZE; j++)
+            {
+                PrintPiece(pieces[i, j], possibleMoves[i, j]);
+            }
+
+            Console.WriteLine();
+        }
+
         Console.WriteLine("  a b c d e f g h");
     }
 
@@ -45,10 +67,15 @@ internal static class UI
         Console.WriteLine(message);
         Console.WriteLine("Press any key to continue...");
         Console.ReadLine();
+        Console.Clear();
     }
 
-    private static void PrintPiece(ChessPiece chessPiece)
+    private static void PrintPiece(ChessPiece chessPiece, bool background)
     {
+        if (background)
+        {
+            Console.Write($"{BackgroundColors.BLUE}");
+        }
         if (chessPiece == null)
         {
             Console.Write($"{Colors.GREEN}-{Colors.RESET}");
