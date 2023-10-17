@@ -1,4 +1,4 @@
-﻿namespace ChessConsole.Board;
+﻿namespace ChessConsole.Boardgame;
 
 internal sealed class Position
 {

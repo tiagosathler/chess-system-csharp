@@ -1,9 +1,11 @@
-﻿namespace ChessConsole;
+﻿using ChessConsole.Boardgame;
+
+namespace ChessConsole;
 
 internal static class Program
 {
     private static void Main(string[] args)
     {
-        Console.WriteLine("Hello, World!");
+        Board board = new(8, 8);
     }
 }
