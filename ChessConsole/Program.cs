@@ -16,6 +16,11 @@ internal static class Program
                 UI.PrintBoard(chessMatch.GetPieces());
 
                 ChessPosition source = UI.ReadChessPosition("Source");
+
+                bool[,] possibleMoves = chessMatch.PossibleMoves(source);
+
+                UI.PrintBoard(chessMatch.GetPieces(), possibleMoves);
+
                 ChessPosition target = UI.ReadChessPosition("Target");
 
                 ChessPiece? capturedChessPiece = chessMatch.PerformChessMove(source, target);
@@ -28,7 +33,6 @@ internal static class Program
             {
                 UI.PrintErrorMessage(e.Message);
             }
-            Console.Clear();
         }
     }
 }
