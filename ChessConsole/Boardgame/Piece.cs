@@ -2,7 +2,7 @@
 
 internal abstract class Piece
 {
-    protected Position? Position { get; set; }
+    public Position? Position { get; set; }
 
     public Board Board { get; }
 
