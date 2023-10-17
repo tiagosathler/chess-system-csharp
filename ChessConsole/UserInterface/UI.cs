@@ -20,12 +20,17 @@ internal static class UI
         Console.WriteLine("  a b c d e f g h");
     }
 
-    internal static ChessPosition ReadChessPosition()
+    internal static ChessPosition ReadChessPosition(string message)
     {
+        Console.Write($"\n{message}: ");
+
         try
         {
-            char column = char.Parse(Console.ReadLine()!);
-            int row = int.Parse(Console.ReadLine()!);
+            string position = Console.ReadLine()!;
+
+            char column = char.Parse(position.Trim().ToLower()[..1]);
+            int row = int.Parse(position.Trim()[1..]);
+
             return new ChessPosition(column, row);
         }
         catch (SystemException e)
