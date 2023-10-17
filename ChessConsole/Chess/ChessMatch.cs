@@ -25,7 +25,7 @@ internal sealed class ChessMatch
         {
             for (int j = 0; j < Board.BOARD_SIZE; j++)
             {
-                chessPieces[i, j] = (ChessPiece)board.Piece(i, j);
+                chessPieces[i, j] = (ChessPiece)board.Piece(i, j)!;
             }
         }
 

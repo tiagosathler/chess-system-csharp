@@ -7,7 +7,7 @@ internal sealed class Board
     public int Rows { get; }
     public int Columns { get; }
 
-    private readonly Piece[,] pieces;
+    private readonly Piece?[,] pieces;
 
     public Board(int rows, int columns)
     {
@@ -20,7 +20,7 @@ internal sealed class Board
         pieces = new Piece[Rows, Columns];
     }
 
-    public Piece Piece(Position position)
+    public Piece? Piece(Position position)
     {
         if (!PositionExists(position))
         {
@@ -29,7 +29,7 @@ internal sealed class Board
         return pieces[position.Row, position.Column];
     }
 
-    public Piece Piece(int row, int column)
+    public Piece? Piece(int row, int column)
     {
         return Piece(new Position(row, column));
     }
@@ -44,7 +44,7 @@ internal sealed class Board
         piece.Position = position;
     }
 
-    public Piece RemovePiece(Position position)
+    public Piece? RemovePiece(Position position)
     {
         throw new NotImplementedException();
     }
