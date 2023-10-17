@@ -14,13 +14,26 @@ internal abstract class Piece
 
     protected abstract bool[,] PossibleMoves();
 
-    public virtual bool PossibleMove(Position position)
+    public bool PossibleMove(Position position)
     {
-        throw new NotImplementedException();
+        return PossibleMoves()[position.Row, position.Column];
     }
 
-    public virtual bool IsThereAnyPossibleMove()
+    public bool IsThereAnyPossibleMove()
     {
-        throw new NotImplementedException();
+        bool[,] possibleMovesMatrix = PossibleMoves();
+
+        for (int i = 0; i < Board.BOARD_SIZE; i++)
+        {
+            for (int j = 0; j < Board.BOARD_SIZE; j++)
+            {
+                if (possibleMovesMatrix[i, j])
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 }
