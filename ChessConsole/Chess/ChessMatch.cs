@@ -37,14 +37,39 @@ internal sealed class ChessMatch
         throw new NotImplementedException();
     }
 
-    public ChessPiece PerformChessMove(ChessPosition chessPosition, ChessPosition targetPosition)
+    public ChessPiece? PerformChessMove(ChessPosition sourcePosition, ChessPosition targetPosition)
     {
-        throw new NotImplementedException();
+        Position source = sourcePosition.ToPosition();
+        Position target = targetPosition.ToPosition();
+
+        ValidateSourcePosition(source);
+
+        Piece? capturedPiece = MakeMove(source, target);
+
+        return capturedPiece as ChessPiece;
     }
 
     public ChessPiece ReplacePromotedPiece(string type)
     {
         throw new NotImplementedException();
+    }
+
+    private void ValidateSourcePosition(Position position)
+    {
+        if (!board.IsThereAPiece(position))
+        {
+            throw new ChessException($"There is no piece on the position {position}");
+        }
+    }
+
+    private Piece? MakeMove(Position source, Position target)
+    {
+        Piece sourcePiece = board.RemovePiece(source)!;
+        Piece? capturedPiece = board.RemovePiece(target);
+
+        board.PlacePiece(sourcePiece, target);
+
+        return capturedPiece;
     }
 
     private void InitialSetup()
