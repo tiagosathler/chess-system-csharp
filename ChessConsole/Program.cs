@@ -11,12 +11,24 @@ internal static class Program
 
         while (true)
         {
-            UI.PrintBoard(chessMatch.GetPieces());
+            try
+            {
+                UI.PrintBoard(chessMatch.GetPieces());
 
-            ChessPosition source = UI.ReadChessPosition("Source");
-            ChessPosition target = UI.ReadChessPosition("Target");
+                ChessPosition source = UI.ReadChessPosition("Source");
+                ChessPosition target = UI.ReadChessPosition("Target");
 
-            ChessPiece? capturedChessPiece = chessMatch.PerformChessMove(source, target);
+                ChessPiece? capturedChessPiece = chessMatch.PerformChessMove(source, target);
+            }
+            catch (ChessException e)
+            {
+                UI.PrintErrorMessage(e.Message);
+            }
+            catch (SystemException e)
+            {
+                UI.PrintErrorMessage(e.Message);
+            }
+            Console.Clear();
         }
     }
 }
