@@ -7,8 +7,6 @@ namespace ChessConsole.UserInterface;
 internal static class UI
 
 {
-    private static readonly int SLEEP_TIME = 3000;
-
     internal static void PrintBoard(ChessPiece[,] chessPieces)
     {
         for (int i = 0; i < Board.BOARD_SIZE; i++)
