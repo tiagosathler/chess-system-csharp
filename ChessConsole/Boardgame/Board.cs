@@ -46,7 +46,16 @@ internal sealed class Board
 
     public Piece? RemovePiece(Position position)
     {
-        throw new NotImplementedException();
+        Piece? foundPiece = Piece(position);
+
+        if (foundPiece != null)
+        {
+            foundPiece.Position = null;
+            pieces[position.Row, position.Column] = null;
+            return foundPiece;
+        }
+
+        return null;
     }
 
     public bool PositionExists(int row, int column)
