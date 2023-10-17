@@ -5,7 +5,10 @@ using System.Text;
 namespace ChessConsole.UserInterface;
 
 internal static class UI
+
 {
+    private static readonly int SLEEP_TIME = 3000;
+
     internal static void PrintBoard(ChessPiece[,] chessPieces)
     {
         for (int i = 0; i < Board.BOARD_SIZE; i++)
@@ -37,6 +40,13 @@ internal static class UI
         {
             throw new FormatException(e.Message);
         }
+    }
+
+    internal static void PrintErrorMessage(string message)
+    {
+        Console.WriteLine(message);
+        Console.WriteLine("Press any key to continue...");
+        Console.ReadLine();
     }
 
     private static void PrintPiece(ChessPiece chessPiece)
