@@ -6,8 +6,6 @@ namespace ChessConsole.Chess;
 internal sealed class ChessMatch
 
 {
-    public static readonly int BOARD_SIZE = 8;
-
     public int Turn { get; set; }
     public Color CurrentPlayer { get; set; }
 
@@ -15,7 +13,7 @@ internal sealed class ChessMatch
 
     public ChessMatch()
     {
-        board = new Board(BOARD_SIZE, BOARD_SIZE);
+        board = new Board(Board.BOARD_SIZE, Board.BOARD_SIZE);
         InitialSetup();
     }
 
@@ -23,9 +21,9 @@ internal sealed class ChessMatch
     {
         ChessPiece[,] chessPieces = new ChessPiece[board.Rows, board.Columns];
 
-        for (int i = 0; i < BOARD_SIZE; i++)
+        for (int i = 0; i < Board.BOARD_SIZE; i++)
         {
-            for (int j = 0; j < BOARD_SIZE; j++)
+            for (int j = 0; j < Board.BOARD_SIZE; j++)
             {
                 chessPieces[i, j] = (ChessPiece)board.Piece(i, j);
             }

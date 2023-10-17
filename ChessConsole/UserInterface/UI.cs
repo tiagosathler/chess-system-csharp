@@ -1,4 +1,5 @@
-﻿using ChessConsole.Chess;
+﻿using ChessConsole.Boardgame;
+using ChessConsole.Chess;
 
 namespace ChessConsole.UserInterface;
 
@@ -6,10 +7,10 @@ internal static class UI
 {
     public static void PrintBoard(ChessPiece[,] chessPieces)
     {
-        for (int i = 0; i < ChessMatch.BOARD_SIZE; i++)
+        for (int i = 0; i < Board.BOARD_SIZE; i++)
         {
-            Console.Write($"{ChessMatch.BOARD_SIZE - i} ");
-            for (int j = 0; j < ChessMatch.BOARD_SIZE; j++)
+            Console.Write($"{Board.BOARD_SIZE - i} ");
+            for (int j = 0; j < Board.BOARD_SIZE; j++)
             {
                 PrintPiece(chessPieces[i, j]);
             }
