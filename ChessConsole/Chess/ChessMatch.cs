@@ -1,4 +1,5 @@
 ﻿using ChessConsole.Boardgame;
+using ChessConsole.Pieces;
 
 namespace ChessConsole.Chess;
 
@@ -15,6 +16,7 @@ internal sealed class ChessMatch
     public ChessMatch()
     {
         board = new Board(BOARD_SIZE, BOARD_SIZE);
+        InitialSetup();
     }
 
     public ChessPiece[,] GetPieces()
@@ -30,5 +32,16 @@ internal sealed class ChessMatch
         }
 
         return chessPieces;
+    }
+
+    private void InitialSetup()
+    {
+        board.PlacePiece(new Rook(board, Color.WHITE), new Position(0, 0));
+        board.PlacePiece(new Rook(board, Color.WHITE), new Position(0, 7));
+        board.PlacePiece(new King(board, Color.WHITE), new Position(7, 4));
+
+        board.PlacePiece(new Rook(board, Color.BLACK), new Position(7, 7));
+        board.PlacePiece(new Rook(board, Color.BLACK), new Position(7, 0));
+        board.PlacePiece(new King(board, Color.BLACK), new Position(0, 4));
     }
 }
