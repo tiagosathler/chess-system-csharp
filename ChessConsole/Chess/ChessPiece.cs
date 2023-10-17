@@ -12,9 +12,9 @@ internal abstract class ChessPiece : Piece
         Color = color;
     }
 
-    protected bool IsThereOpponentPiece(Position position)
+    protected bool ThereIsOpponentPiece(Position position)
     {
-        throw new NotImplementedException();
+        return Board.Piece(position) is ChessPiece otherPiece && !otherPiece.Color.Equals(Color);
     }
 
     protected void IncreaseMoveCount()
