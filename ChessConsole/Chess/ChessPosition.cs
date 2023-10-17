@@ -23,8 +23,8 @@ internal sealed class ChessPosition
 
     public static ChessPosition FromPosition(Position position)
     {
-        char column = (char)(FIRST_CHAR - position.Column);
-        int row = position.Row - Board.BOARD_SIZE;
+        char column = (char)(FIRST_CHAR + position.Column);
+        int row = Board.BOARD_SIZE - position.Row;
         return new ChessPosition(column, row);
     }
 
