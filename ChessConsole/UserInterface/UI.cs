@@ -6,7 +6,7 @@ namespace ChessConsole.UserInterface;
 
 internal static class UI
 {
-    public static void PrintBoard(ChessPiece[,] chessPieces)
+    internal static void PrintBoard(ChessPiece[,] chessPieces)
     {
         for (int i = 0; i < Board.BOARD_SIZE; i++)
         {
@@ -18,6 +18,20 @@ internal static class UI
             Console.WriteLine();
         }
         Console.WriteLine("  a b c d e f g h");
+    }
+
+    internal static ChessPosition ReadChessPosition()
+    {
+        try
+        {
+            char column = char.Parse(Console.ReadLine()!);
+            int row = int.Parse(Console.ReadLine()!);
+            return new ChessPosition(column, row);
+        }
+        catch (SystemException e)
+        {
+            throw new FormatException(e.Message);
+        }
     }
 
     private static void PrintPiece(ChessPiece chessPiece)
