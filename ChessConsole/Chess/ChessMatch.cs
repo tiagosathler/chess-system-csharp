@@ -32,6 +32,21 @@ internal sealed class ChessMatch
         return chessPieces;
     }
 
+    public bool[,] PossibleMoves(ChessPosition sourcePosition)
+    {
+        throw new NotImplementedException();
+    }
+
+    public ChessPiece PerformChessMove(ChessPosition chessPosition, ChessPosition targetPosition)
+    {
+        throw new NotImplementedException();
+    }
+
+    public ChessPiece ReplacePromotedPiece(string type)
+    {
+        throw new NotImplementedException();
+    }
+
     private void InitialSetup()
     {
         PlaceNewPiece('a', 1, new Rook(board, Color.WHITE));
