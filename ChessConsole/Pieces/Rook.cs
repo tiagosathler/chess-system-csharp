@@ -9,7 +9,7 @@ internal sealed class Rook : ChessPiece
     {
     }
 
-    protected override bool[,] PossibleMoves()
+    protected internal override bool[,] PossibleMoves()
     {
         bool[,] mat = new bool[Board.BOARD_SIZE, Board.BOARD_SIZE];
 

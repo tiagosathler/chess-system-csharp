@@ -12,7 +12,7 @@ internal abstract class Piece
         Position = null;
     }
 
-    protected abstract bool[,] PossibleMoves();
+    protected internal abstract bool[,] PossibleMoves();
 
     public bool PossibleMove(Position position)
     {
