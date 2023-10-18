@@ -8,6 +8,8 @@ internal sealed class ChessMatch
 {
     public int Turn { get; private set; }
     public Color CurrentPlayer { get; private set; }
+    public bool Check { get; private set; }
+    public bool CheckMate { get; private set; }
     public List<ChessPiece> CapturedChessPieces { get; }
     public List<ChessPiece> ChessPiecesOnTheBoard { get; }
 
@@ -58,11 +60,6 @@ internal sealed class ChessMatch
         NextTurn();
     }
 
-    public ChessPiece ReplacePromotedPiece(string type)
-    {
-        throw new NotImplementedException();
-    }
-
     private void ValidadeSourcePosition(Position source)
     {
         if (!board.IsThereAPiece(source))
@@ -85,9 +82,15 @@ internal sealed class ChessMatch
 
     private void ValidadeTargetPosition(Position source, Position target)
     {
-        if (!board.Piece(source)!.PossibleMove(target))
+        ChessPiece sourcePiece = (ChessPiece)board.Piece(source)!;
+
+        if (!sourcePiece.PossibleMove(target))
         {
             throw new ChessException("The chosen piece can't move to target position");
+        }
+        if (sourcePiece is King && TestCheck(CurrentPlayer, target))
+        {
+            throw new ChessException("You can't put yourself in check!");
         }
     }
 
@@ -103,12 +106,46 @@ internal sealed class ChessMatch
             CapturedChessPieces.Add((ChessPiece)capturedPiece);
             ChessPiecesOnTheBoard.Remove((ChessPiece)capturedPiece);
         }
+
+        Check = TestCheck(CurrentOpponentPlayer());
     }
 
     private void NextTurn()
     {
         Turn++;
         CurrentPlayer = CurrentPlayer.Equals(Color.WHITE) ? Color.BLACK : Color.WHITE;
+    }
+
+    private bool TestCheck(Color color, Position position)
+    {
+        foreach (ChessPiece p in ChessPiecesOnTheBoard.FindAll(p => !p.Color.Equals(color)))
+        {
+            bool[,] mat = p.PossibleMoves();
+
+            if (mat[position.Row, position.Column])
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private bool TestCheck(Color color)
+    {
+        ChessPiece? king = ChessPiecesOnTheBoard.Find(p => p is King && p.Color.Equals(color))
+            ?? throw new ChessException($"There is not {CurrentPlayer} king on the board!");
+
+        return TestCheck(color, king.Position!);
+    }
+
+    private Color CurrentOpponentPlayer()
+    {
+        return CurrentPlayer.Equals(Color.WHITE) ? Color.BLACK : Color.WHITE;
+    }
+
+    public ChessPiece ReplacePromotedPiece(string type)
+    {
+        throw new NotImplementedException();
     }
 
     private void PlaceNewPiece(char column, int row, ChessPiece chessPiece)
