@@ -22,7 +22,7 @@ internal sealed class Rook : ChessPiece
             mat[p.Row, p.Column] = true;
             p.Row--;
         }
-        if (Board.PositionExists(p) && ThereIsOpponentPiece(p))
+        if (Board.PositionExists(p) && IsThereOpponentPiece(p))
         {
             mat[p.Row, p.Column] = true;
         }
@@ -34,7 +34,7 @@ internal sealed class Rook : ChessPiece
             mat[p.Row, p.Column] = true;
             p.Column--;
         }
-        if (Board.PositionExists(p) && ThereIsOpponentPiece(p))
+        if (Board.PositionExists(p) && IsThereOpponentPiece(p))
         {
             mat[p.Row, p.Column] = true;
         }
@@ -46,7 +46,7 @@ internal sealed class Rook : ChessPiece
             mat[p.Row, p.Column] = true;
             p.Column++;
         }
-        if (Board.PositionExists(p) && ThereIsOpponentPiece(p))
+        if (Board.PositionExists(p) && IsThereOpponentPiece(p))
         {
             mat[p.Row, p.Column] = true;
         }
@@ -58,7 +58,7 @@ internal sealed class Rook : ChessPiece
             mat[p.Row, p.Column] = true;
             p.Row++;
         }
-        if (Board.PositionExists(p) && ThereIsOpponentPiece(p))
+        if (Board.PositionExists(p) && IsThereOpponentPiece(p))
         {
             mat[p.Row, p.Column] = true;
         }
