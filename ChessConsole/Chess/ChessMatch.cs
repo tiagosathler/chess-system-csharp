@@ -6,14 +6,16 @@ namespace ChessConsole.Chess;
 internal sealed class ChessMatch
 
 {
-    public int Turn { get; set; }
-    public Color CurrentPlayer { get; set; }
+    public int Turn { get; private set; }
+    public Color CurrentPlayer { get; private set; }
 
     private readonly Board board;
 
     public ChessMatch()
     {
         board = new Board(Board.BOARD_SIZE, Board.BOARD_SIZE);
+        Turn = 1;
+        CurrentPlayer = Color.WHITE;
         InitialSetup();
     }
 
@@ -49,6 +51,8 @@ internal sealed class ChessMatch
 
         Piece? capturedPiece = MakeMove(source, target);
 
+        NextTurn();
+
         return capturedPiece as ChessPiece;
     }
 
@@ -63,18 +67,23 @@ internal sealed class ChessMatch
         {
             throw new ChessException($"There is no piece on the source position '{ChessPosition.FromPosition(source)}'!");
         }
-    }
 
-    private void ValidadeTargetPosition(Position source, Position target)
-    {
-        Piece sourcePiece = board.Piece(source)!;
+        ChessPiece sourcePiece = (ChessPiece)board.Piece(source)!;
+
+        if (!sourcePiece.Color.Equals(CurrentPlayer))
+        {
+            throw new ChessException("The chosen piece is not yours!");
+        }
 
         if (!sourcePiece.IsThereAnyPossibleMove())
         {
             throw new ChessException("There is no possible moves for the chosen piece!");
         }
+    }
 
-        if (!sourcePiece.PossibleMove(target))
+    private void ValidadeTargetPosition(Position source, Position target)
+    {
+        if (!board.Piece(source)!.PossibleMove(target))
         {
             throw new ChessException("The chosen piece can't move to target position");
         }
@@ -90,6 +99,17 @@ internal sealed class ChessMatch
         return capturedPiece;
     }
 
+    private void NextTurn()
+    {
+        Turn++;
+        CurrentPlayer = CurrentPlayer.Equals(Color.WHITE) ? Color.BLACK : Color.WHITE;
+    }
+
+    private void PlaceNewPiece(char column, int row, ChessPiece chessPiece)
+    {
+        board.PlacePiece(chessPiece, new ChessPosition(column, row).ToPosition());
+    }
+
     private void InitialSetup()
     {
         PlaceNewPiece('a', 1, new Rook(board, Color.WHITE));
@@ -99,10 +119,5 @@ internal sealed class ChessMatch
         PlaceNewPiece('a', 8, new Rook(board, Color.BLACK));
         PlaceNewPiece('h', 8, new Rook(board, Color.BLACK));
         PlaceNewPiece('e', 8, new King(board, Color.BLACK));
-    }
-
-    private void PlaceNewPiece(char column, int row, ChessPiece chessPiece)
-    {
-        board.PlacePiece(chessPiece, new ChessPosition(column, row).ToPosition());
     }
 }
