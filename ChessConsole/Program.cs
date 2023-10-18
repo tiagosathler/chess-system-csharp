@@ -24,7 +24,7 @@ internal static class Program
 
                 ChessPosition target = UI.ReadChessPosition("Target");
 
-                ChessPiece? capturedChessPiece = chessMatch.PerformChessMove(source, target);
+                chessMatch.PerformChessMove(source, target);
             }
             catch (ChessException e)
             {
