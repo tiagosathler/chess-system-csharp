@@ -12,17 +12,17 @@ internal abstract class ChessPiece : Piece
         Color = color;
     }
 
-    protected bool ThereIsOpponentPiece(Position position)
+    protected internal bool ThereIsOpponentPiece(Position position)
     {
         return Board.Piece(position) is ChessPiece otherPiece && !otherPiece.Color.Equals(Color);
     }
 
-    protected void IncreaseMoveCount()
+    protected internal void IncreaseMoveCount()
     {
         MoveCount++;
     }
 
-    protected void DecreaseMoveCount()
+    protected internal void DecreaseMoveCount()
     {
         MoveCount--;
     }
