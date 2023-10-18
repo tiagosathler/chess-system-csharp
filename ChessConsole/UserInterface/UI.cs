@@ -30,13 +30,32 @@ internal sealed class UI
     private void PrintHead()
     {
         Console.WriteLine($"\n\x1b[1mTurn: {chessMatch.Turn}\x1b[0m");
-        string message = $"\n\x1b\x1b[1mWaiting player: {chessMatch.CurrentPlayer}\x1b[0m";
 
+        if (chessMatch.CapturedChessPieces.Count > 0)
+        {
+            PrintCapturedPieces();
+        }
+
+        string message = $"\n\x1b\x1b[1mWaiting player: {chessMatch.CurrentPlayer}\x1b[0m";
         switch (chessMatch.CurrentPlayer)
         {
             case Color.WHITE: { Console.WriteLine($"{Colors.WHITE}{message}{Colors.RESET}"); break; }
             case Color.BLACK: { Console.WriteLine($"{Colors.YELLOW}{message}{Colors.RESET}"); break; }
         }
+    }
+
+    private void PrintCapturedPieces()
+    {
+        List<ChessPiece> whiteChessPieces = chessMatch.CapturedChessPieces.FindAll(p => p.Color.Equals(Color.WHITE));
+        List<ChessPiece> blackChessPieces = chessMatch.CapturedChessPieces.FindAll(p => p.Color.Equals(Color.BLACK));
+
+        Console.WriteLine($"{Colors.RED}\x1b[1m--------------------------------");
+        Console.WriteLine($"Captured pieces:{Colors.RESET}");
+
+        Console.WriteLine($"{Colors.WHITE}White: [{String.Join(",", whiteChessPieces)}]{Colors.RESET}");
+        Console.WriteLine($"{Colors.YELLOW}Black: [{String.Join(",", blackChessPieces)}]{Colors.RESET}");
+
+        Console.WriteLine($"{Colors.RED}\x1b[1m--------------------------------{Colors.RESET}\n");
     }
 
     private void PrintBoard()
