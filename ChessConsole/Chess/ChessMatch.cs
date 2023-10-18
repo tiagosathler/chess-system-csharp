@@ -57,7 +57,10 @@ internal sealed class ChessMatch
 
         MakeMove(source, target);
 
-        NextTurn();
+        if (!CheckMate)
+        {
+            NextTurn();
+        }
     }
 
     private void ValidadeSourcePosition(Position source)
@@ -107,6 +110,11 @@ internal sealed class ChessMatch
             ChessPiecesOnTheBoard.Remove((ChessPiece)capturedPiece);
         }
 
+        if (Check)
+        {
+            CheckMate = TestCheckMate(CurrentOpponentPlayer());
+        }
+
         Check = TestCheck(CurrentOpponentPlayer());
     }
 
@@ -136,6 +144,32 @@ internal sealed class ChessMatch
             ?? throw new ChessException($"There is not {CurrentPlayer} king on the board!");
 
         return TestCheck(color, king.Position!);
+    }
+
+    private bool TestCheckMate(Color color)
+    {
+        foreach (ChessPiece chessPiece in ChessPiecesOnTheBoard.FindAll(p => p.Color.Equals(color)))
+        {
+            bool[,] possibleMoves = chessPiece.PossibleMoves();
+
+            for (int i = 0; i < Board.BOARD_SIZE; i++)
+            {
+                for (int j = 0; j < Board.BOARD_SIZE; j++)
+                {
+                    if (possibleMoves[i, j])
+                    {
+                        Position target = new(i, j);
+                        ChessPiece? foundChessPiece = board.Piece(target) as ChessPiece;
+
+                        if (foundChessPiece is King && !foundChessPiece.Color.Equals(color))
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     private Color CurrentOpponentPlayer()
