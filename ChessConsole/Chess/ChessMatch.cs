@@ -10,6 +10,7 @@ internal sealed class ChessMatch
     public Color CurrentPlayer { get; private set; }
     public bool Check { get; private set; }
     public bool CheckMate { get; private set; }
+    public ChessPiece? EnPassantVulnerable { get; private set; }
     public List<ChessPiece> CapturedChessPieces { get; }
     public List<ChessPiece> ChessPiecesOnTheBoard { get; }
 
@@ -100,7 +101,7 @@ internal sealed class ChessMatch
     private void MakeMove(Position source, Position target)
     {
         ChessPiece sourcePiece = (ChessPiece)board.RemovePiece(source)!;
-        Piece? capturedPiece = board.RemovePiece(target);
+        ChessPiece? capturedPiece = board.RemovePiece(target) as ChessPiece;
 
         board.PlacePiece(sourcePiece, target);
         sourcePiece.IncreaseMoveCount();
@@ -125,10 +126,31 @@ internal sealed class ChessMatch
             rook.IncreaseMoveCount();
         }
 
+        // special move en passant - capture opponent piece
+        if (sourcePiece is Pawn && source.Column != target.Column && capturedPiece == null)
+        {
+            Position pawnPosition;
+            if (sourcePiece.Color == Color.WHITE)
+            {
+                pawnPosition = new(target.Row + 1, target.Column);
+            }
+            else
+            {
+                pawnPosition = new(target.Row - 1, target.Column);
+            }
+            capturedPiece = board.RemovePiece(pawnPosition) as ChessPiece;
+        }
+
+        // special move en passant - set EnPassantVulnerable
+        ChessPiece movedPiece = (ChessPiece)board.Piece(target)!;
+        EnPassantVulnerable = (movedPiece is Pawn && Math.Abs(source.Row - target.Row) == 2)
+            ? movedPiece
+            : null;
+
         if (capturedPiece != null)
         {
-            CapturedChessPieces.Add((ChessPiece)capturedPiece);
-            ChessPiecesOnTheBoard.Remove((ChessPiece)capturedPiece);
+            CapturedChessPieces.Add(capturedPiece);
+            ChessPiecesOnTheBoard.Remove(capturedPiece);
         }
 
         if (Check)
@@ -219,14 +241,14 @@ internal sealed class ChessMatch
         PlaceNewPiece('f', 1, new Bishop(board, Color.WHITE));
         PlaceNewPiece('g', 1, new Knight(board, Color.WHITE));
         PlaceNewPiece('h', 1, new Rook(board, Color.WHITE));
-        PlaceNewPiece('a', 2, new Pawn(board, Color.WHITE));
-        PlaceNewPiece('b', 2, new Pawn(board, Color.WHITE));
-        PlaceNewPiece('c', 2, new Pawn(board, Color.WHITE));
-        PlaceNewPiece('d', 2, new Pawn(board, Color.WHITE));
-        PlaceNewPiece('e', 2, new Pawn(board, Color.WHITE));
-        PlaceNewPiece('f', 2, new Pawn(board, Color.WHITE));
-        PlaceNewPiece('g', 2, new Pawn(board, Color.WHITE));
-        PlaceNewPiece('h', 2, new Pawn(board, Color.WHITE));
+        PlaceNewPiece('a', 2, new Pawn(board, Color.WHITE, this));
+        PlaceNewPiece('b', 2, new Pawn(board, Color.WHITE, this));
+        PlaceNewPiece('c', 2, new Pawn(board, Color.WHITE, this));
+        PlaceNewPiece('d', 2, new Pawn(board, Color.WHITE, this));
+        PlaceNewPiece('e', 2, new Pawn(board, Color.WHITE, this));
+        PlaceNewPiece('f', 2, new Pawn(board, Color.WHITE, this));
+        PlaceNewPiece('g', 2, new Pawn(board, Color.WHITE, this));
+        PlaceNewPiece('h', 2, new Pawn(board, Color.WHITE, this));
 
         PlaceNewPiece('a', 8, new Rook(board, Color.BLACK));
         PlaceNewPiece('b', 8, new Knight(board, Color.BLACK));
@@ -236,13 +258,13 @@ internal sealed class ChessMatch
         PlaceNewPiece('f', 8, new Bishop(board, Color.BLACK));
         PlaceNewPiece('g', 8, new Knight(board, Color.BLACK));
         PlaceNewPiece('h', 8, new Rook(board, Color.BLACK));
-        PlaceNewPiece('a', 7, new Pawn(board, Color.BLACK));
-        PlaceNewPiece('b', 7, new Pawn(board, Color.BLACK));
-        PlaceNewPiece('c', 7, new Pawn(board, Color.BLACK));
-        PlaceNewPiece('d', 7, new Pawn(board, Color.BLACK));
-        PlaceNewPiece('e', 7, new Pawn(board, Color.BLACK));
-        PlaceNewPiece('f', 7, new Pawn(board, Color.BLACK));
-        PlaceNewPiece('g', 7, new Pawn(board, Color.BLACK));
-        PlaceNewPiece('h', 7, new Pawn(board, Color.BLACK));
+        PlaceNewPiece('a', 7, new Pawn(board, Color.BLACK, this));
+        PlaceNewPiece('b', 7, new Pawn(board, Color.BLACK, this));
+        PlaceNewPiece('c', 7, new Pawn(board, Color.BLACK, this));
+        PlaceNewPiece('d', 7, new Pawn(board, Color.BLACK, this));
+        PlaceNewPiece('e', 7, new Pawn(board, Color.BLACK, this));
+        PlaceNewPiece('f', 7, new Pawn(board, Color.BLACK, this));
+        PlaceNewPiece('g', 7, new Pawn(board, Color.BLACK, this));
+        PlaceNewPiece('h', 7, new Pawn(board, Color.BLACK, this));
     }
 }
