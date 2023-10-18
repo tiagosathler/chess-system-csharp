@@ -105,6 +105,26 @@ internal sealed class ChessMatch
         board.PlacePiece(sourcePiece, target);
         sourcePiece.IncreaseMoveCount();
 
+        // special move: castling to king-side rook
+        if (sourcePiece is King && target.Column == source.Column + 2)
+        {
+            Position sourceT = new(source.Row, source.Column + 3);
+            Position targetT = new(source.Row, source.Column + 1);
+            ChessPiece rook = (ChessPiece)board.RemovePiece(sourceT)!;
+            board.PlacePiece(rook, targetT);
+            rook.IncreaseMoveCount();
+        }
+
+        // special move: castling to queen-side rook
+        if (sourcePiece is King && target.Column == source.Column - 2)
+        {
+            Position sourceT = new(source.Row, source.Column - 4);
+            Position targetT = new(source.Row, source.Column - 1);
+            ChessPiece rook = (ChessPiece)board.RemovePiece(sourceT)!;
+            board.PlacePiece(rook, targetT);
+            rook.IncreaseMoveCount();
+        }
+
         if (capturedPiece != null)
         {
             CapturedChessPieces.Add((ChessPiece)capturedPiece);
@@ -195,7 +215,7 @@ internal sealed class ChessMatch
         PlaceNewPiece('b', 1, new Knight(board, Color.WHITE));
         PlaceNewPiece('c', 1, new Bishop(board, Color.WHITE));
         PlaceNewPiece('d', 1, new Queen(board, Color.WHITE));
-        PlaceNewPiece('e', 1, new King(board, Color.WHITE));
+        PlaceNewPiece('e', 1, new King(board, Color.WHITE, this));
         PlaceNewPiece('f', 1, new Bishop(board, Color.WHITE));
         PlaceNewPiece('g', 1, new Knight(board, Color.WHITE));
         PlaceNewPiece('h', 1, new Rook(board, Color.WHITE));
@@ -212,7 +232,7 @@ internal sealed class ChessMatch
         PlaceNewPiece('b', 8, new Knight(board, Color.BLACK));
         PlaceNewPiece('c', 8, new Bishop(board, Color.BLACK));
         PlaceNewPiece('d', 8, new Queen(board, Color.BLACK));
-        PlaceNewPiece('e', 8, new King(board, Color.BLACK));
+        PlaceNewPiece('e', 8, new King(board, Color.BLACK, this));
         PlaceNewPiece('f', 8, new Bishop(board, Color.BLACK));
         PlaceNewPiece('g', 8, new Knight(board, Color.BLACK));
         PlaceNewPiece('h', 8, new Rook(board, Color.BLACK));
