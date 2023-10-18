@@ -8,12 +8,16 @@ internal sealed class ChessMatch
 {
     public int Turn { get; private set; }
     public Color CurrentPlayer { get; private set; }
+    public List<ChessPiece> CapturedChessPieces { get; }
+    public List<ChessPiece> ChessPiecesOnTheBoard { get; }
 
     private readonly Board board;
 
     public ChessMatch()
     {
         board = new Board(Board.BOARD_SIZE, Board.BOARD_SIZE);
+        CapturedChessPieces = new();
+        ChessPiecesOnTheBoard = new();
         Turn = 1;
         CurrentPlayer = Color.WHITE;
         InitialSetup();
@@ -41,7 +45,7 @@ internal sealed class ChessMatch
         return board.Piece(position)!.PossibleMoves();
     }
 
-    public ChessPiece? PerformChessMove(ChessPosition sourcePosition, ChessPosition targetPosition)
+    public void PerformChessMove(ChessPosition sourcePosition, ChessPosition targetPosition)
     {
         Position source = sourcePosition.ToPosition();
         Position target = targetPosition.ToPosition();
@@ -49,11 +53,9 @@ internal sealed class ChessMatch
         ValidadeSourcePosition(source);
         ValidadeTargetPosition(source, target);
 
-        Piece? capturedPiece = MakeMove(source, target);
+        MakeMove(source, target);
 
         NextTurn();
-
-        return capturedPiece as ChessPiece;
     }
 
     public ChessPiece ReplacePromotedPiece(string type)
@@ -89,14 +91,18 @@ internal sealed class ChessMatch
         }
     }
 
-    private Piece? MakeMove(Position source, Position target)
+    private void MakeMove(Position source, Position target)
     {
         Piece sourcePiece = board.RemovePiece(source)!;
         Piece? capturedPiece = board.RemovePiece(target);
 
         board.PlacePiece(sourcePiece, target);
 
-        return capturedPiece;
+        if (capturedPiece != null)
+        {
+            CapturedChessPieces.Add((ChessPiece)capturedPiece);
+            ChessPiecesOnTheBoard.Remove((ChessPiece)capturedPiece);
+        }
     }
 
     private void NextTurn()
@@ -108,6 +114,7 @@ internal sealed class ChessMatch
     private void PlaceNewPiece(char column, int row, ChessPiece chessPiece)
     {
         board.PlacePiece(chessPiece, new ChessPosition(column, row).ToPosition());
+        ChessPiecesOnTheBoard.Add(chessPiece);
     }
 
     private void InitialSetup()
