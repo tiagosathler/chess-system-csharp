@@ -192,10 +192,12 @@ internal sealed class ChessMatch
     private void InitialSetup()
     {
         PlaceNewPiece('a', 1, new Rook(board, Color.WHITE));
+        PlaceNewPiece('b', 1, new Knight(board, Color.WHITE));
         PlaceNewPiece('c', 1, new Bishop(board, Color.WHITE));
-        PlaceNewPiece('f', 1, new Bishop(board, Color.WHITE));
-        PlaceNewPiece('h', 1, new Rook(board, Color.WHITE));
         PlaceNewPiece('e', 1, new King(board, Color.WHITE));
+        PlaceNewPiece('f', 1, new Bishop(board, Color.WHITE));
+        PlaceNewPiece('g', 1, new Knight(board, Color.WHITE));
+        PlaceNewPiece('h', 1, new Rook(board, Color.WHITE));
         PlaceNewPiece('a', 2, new Pawn(board, Color.WHITE));
         PlaceNewPiece('b', 2, new Pawn(board, Color.WHITE));
         PlaceNewPiece('c', 2, new Pawn(board, Color.WHITE));
@@ -206,10 +208,12 @@ internal sealed class ChessMatch
         PlaceNewPiece('h', 2, new Pawn(board, Color.WHITE));
 
         PlaceNewPiece('a', 8, new Rook(board, Color.BLACK));
+        PlaceNewPiece('b', 8, new Knight(board, Color.BLACK));
         PlaceNewPiece('c', 8, new Bishop(board, Color.BLACK));
-        PlaceNewPiece('f', 8, new Bishop(board, Color.BLACK));
-        PlaceNewPiece('h', 8, new Rook(board, Color.BLACK));
         PlaceNewPiece('e', 8, new King(board, Color.BLACK));
+        PlaceNewPiece('f', 8, new Bishop(board, Color.BLACK));
+        PlaceNewPiece('g', 8, new Knight(board, Color.BLACK));
+        PlaceNewPiece('h', 8, new Rook(board, Color.BLACK));
         PlaceNewPiece('a', 7, new Pawn(board, Color.BLACK));
         PlaceNewPiece('b', 7, new Pawn(board, Color.BLACK));
         PlaceNewPiece('c', 7, new Pawn(board, Color.BLACK));
