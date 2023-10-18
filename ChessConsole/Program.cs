@@ -10,7 +10,7 @@ internal static class Program
         ChessMatch chessMatch = new();
         UI ui = new(chessMatch);
 
-        while (true)
+        while (!chessMatch.CheckMate)
         {
             try
             {
@@ -35,5 +35,7 @@ internal static class Program
                 UI.PrintErrorMessage(e.Message);
             }
         }
+
+        ui.PrintResult();
     }
 }
