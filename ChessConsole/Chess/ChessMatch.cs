@@ -99,10 +99,11 @@ internal sealed class ChessMatch
 
     private void MakeMove(Position source, Position target)
     {
-        Piece sourcePiece = board.RemovePiece(source)!;
+        ChessPiece sourcePiece = (ChessPiece)board.RemovePiece(source)!;
         Piece? capturedPiece = board.RemovePiece(target);
 
         board.PlacePiece(sourcePiece, target);
+        sourcePiece.IncreaseMoveCount();
 
         if (capturedPiece != null)
         {
