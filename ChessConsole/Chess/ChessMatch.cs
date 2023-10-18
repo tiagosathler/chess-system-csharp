@@ -11,6 +11,7 @@ internal sealed class ChessMatch
     public bool Check { get; private set; }
     public bool CheckMate { get; private set; }
     public ChessPiece? EnPassantVulnerable { get; private set; }
+    public ChessPiece? Promoted { get; private set; }
     public List<ChessPiece> CapturedChessPieces { get; }
     public List<ChessPiece> ChessPiecesOnTheBoard { get; }
 
@@ -98,6 +99,40 @@ internal sealed class ChessMatch
         }
     }
 
+    public ChessPiece ReplacePromotedPiece(string type)
+    {
+        if (Promoted == null)
+        {
+            throw new ChessException("There is no piece to be promoted!");
+        }
+
+        if (!type.Equals("B") && !type.Equals("N") && !type.Equals("R") && !type.Equals("Q"))
+        {
+            return Promoted;
+        }
+
+        Position position = Promoted.Position!;
+        ChessPiece removedPiece = (ChessPiece)board.RemovePiece(position)!;
+        ChessPiecesOnTheBoard.Remove(removedPiece);
+
+        ChessPiece newPiece = NewPiece(type, Promoted.Color);
+        board.PlacePiece(newPiece, position);
+        ChessPiecesOnTheBoard.Add(newPiece);
+
+        return newPiece;
+    }
+
+    private ChessPiece NewPiece(string type, Color color)
+    {
+        return type switch
+        {
+            "B" => new Bishop(board, color),
+            "N" => new Knight(board, color),
+            "Q" => new Queen(board, color),
+            _ => new Rook(board, color),
+        };
+    }
+
     private void MakeMove(Position source, Position target)
     {
         ChessPiece sourcePiece = (ChessPiece)board.RemovePiece(source)!;
@@ -129,23 +164,28 @@ internal sealed class ChessMatch
         // special move en passant - capture opponent piece
         if (sourcePiece is Pawn && source.Column != target.Column && capturedPiece == null)
         {
-            Position pawnPosition;
-            if (sourcePiece.Color == Color.WHITE)
-            {
-                pawnPosition = new(target.Row + 1, target.Column);
-            }
-            else
-            {
-                pawnPosition = new(target.Row - 1, target.Column);
-            }
+            Position pawnPosition = sourcePiece.Color.Equals(Color.WHITE)
+                ? new Position(target.Row + 1, target.Column)
+                : new Position(target.Row - 1, target.Column);
+
             capturedPiece = board.RemovePiece(pawnPosition) as ChessPiece;
         }
 
         // special move en passant - set EnPassantVulnerable
         ChessPiece movedPiece = (ChessPiece)board.Piece(target)!;
-        EnPassantVulnerable = (movedPiece is Pawn && Math.Abs(source.Row - target.Row) == 2)
-            ? movedPiece
-            : null;
+        EnPassantVulnerable = (movedPiece is Pawn && Math.Abs(source.Row - target.Row) == 2) ? movedPiece : null;
+
+        // special move promotion
+        Promoted = null;
+        if (movedPiece is Pawn &&
+            (
+                (movedPiece.Color.Equals(Color.WHITE) && target.Row == 0) ||
+                (movedPiece.Color.Equals(Color.BLACK) && target.Row == 7)
+            ))
+        {
+            Promoted = (ChessPiece)board.Piece(target)!;
+            Promoted = ReplacePromotedPiece("Q");
+        }
 
         if (capturedPiece != null)
         {
@@ -218,11 +258,6 @@ internal sealed class ChessMatch
     private Color CurrentOpponentPlayer()
     {
         return CurrentPlayer.Equals(Color.WHITE) ? Color.BLACK : Color.WHITE;
-    }
-
-    public ChessPiece ReplacePromotedPiece(string type)
-    {
-        throw new NotImplementedException();
     }
 
     private void PlaceNewPiece(char column, int row, ChessPiece chessPiece)

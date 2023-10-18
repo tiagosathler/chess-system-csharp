@@ -25,6 +25,12 @@ internal static class Program
                 ChessPosition target = UI.ReadChessPosition("Target");
 
                 chessMatch.PerformChessMove(source, target);
+
+                if (!chessMatch.CheckMate && chessMatch.Promoted != null)
+                {
+                    string type = UI.ReadPieceForPromotion();
+                    chessMatch.ReplacePromotedPiece(type);
+                }
             }
             catch (ChessException e)
             {

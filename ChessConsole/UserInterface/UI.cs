@@ -172,4 +172,16 @@ internal sealed class UI
         }
         Console.Write(" ");
     }
+
+    internal static string ReadPieceForPromotion()
+    {
+        Console.Write("Enter piece for promotion (B/N/R/Q): ");
+        String? choosen = Console.ReadLine();
+
+        if (!String.IsNullOrWhiteSpace(choosen))
+        {
+            return choosen.Trim().ToUpper();
+        }
+        return "Q";
+    }
 }
