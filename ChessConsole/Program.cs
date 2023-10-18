@@ -8,18 +8,19 @@ internal static class Program
     private static void Main(string[] args)
     {
         ChessMatch chessMatch = new();
+        UI ui = new(chessMatch);
 
         while (true)
         {
             try
             {
-                UI.PrintBoard(chessMatch.GetPieces());
+                ui.PrintFirstActOfTheMatch();
 
                 ChessPosition source = UI.ReadChessPosition("Source");
 
                 bool[,] possibleMoves = chessMatch.PossibleMoves(source);
 
-                UI.PrintBoard(chessMatch.GetPieces(), possibleMoves);
+                ui.PrintSecondActOfTheMatch(possibleMoves);
 
                 ChessPosition target = UI.ReadChessPosition("Target");
 
