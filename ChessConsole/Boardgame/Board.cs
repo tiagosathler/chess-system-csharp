@@ -63,7 +63,7 @@ internal sealed class Board
         return row >= 0
             && row < Rows
             && column >= 0
-            && column <= Columns;
+            && column < Columns;
     }
 
     public bool PositionExists(Position position)
