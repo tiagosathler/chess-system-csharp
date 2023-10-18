@@ -27,6 +27,21 @@ internal sealed class UI
         PrintHead();
     }
 
+    public void PrintResult()
+    {
+        Console.WriteLine($"\n\x1b[1m{Colors.GREEN}CKECKMATE !!!{Colors.RESET}");
+
+        string winner = chessMatch.CurrentPlayer.ToString();
+
+        switch (chessMatch.CurrentPlayer)
+        {
+            case Color.WHITE: { winner = $"{Colors.WHITE}{winner}"; break; }
+            case Color.BLACK: { winner = $"{Colors.YELLOW}{winner}"; break; }
+        }
+
+        Console.WriteLine($"\n\x1b[1m{Colors.GREEN}Winner: {winner}{Colors.RESET}");
+    }
+
     private void PrintHead()
     {
         Console.WriteLine($"\n\x1b[1mTurn: {chessMatch.Turn}\x1b[0m");
