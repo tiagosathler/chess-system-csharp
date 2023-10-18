@@ -4,11 +4,45 @@ using System.Text;
 
 namespace ChessConsole.UserInterface;
 
-internal static class UI
-
+internal sealed class UI
 {
-    internal static void PrintBoard(ChessPiece[,] chessPieces)
+    private const string COLUMNS = "  a b c d e f g h";
+
+    private readonly ChessMatch chessMatch;
+
+    public UI(ChessMatch chessMatch)
     {
+        this.chessMatch = chessMatch;
+    }
+
+    public void PrintFirstActOfTheMatch()
+    {
+        PrintBoard();
+        PrintHead();
+    }
+
+    public void PrintSecondActOfTheMatch(bool[,] possibleMoves)
+    {
+        PrintBoard(possibleMoves);
+        PrintHead();
+    }
+
+    private void PrintHead()
+    {
+        Console.WriteLine($"\n\x1b[1mTurn: {chessMatch.Turn}\x1b[0m");
+        string message = $"\n\x1b\x1b[1mWaiting player: {chessMatch.CurrentPlayer}\x1b[0m";
+
+        switch (chessMatch.CurrentPlayer)
+        {
+            case Color.WHITE: { Console.WriteLine($"{Colors.WHITE}{message}{Colors.RESET}"); break; }
+            case Color.BLACK: { Console.WriteLine($"{Colors.YELLOW}{message}{Colors.RESET}"); break; }
+        }
+    }
+
+    private void PrintBoard()
+    {
+        ChessPiece[,] pieces = chessMatch.GetPieces();
+
         Console.Clear();
 
         for (int i = 0; i < Board.BOARD_SIZE; i++)
@@ -16,16 +50,18 @@ internal static class UI
             Console.Write($"{Board.BOARD_SIZE - i} ");
             for (int j = 0; j < Board.BOARD_SIZE; j++)
             {
-                PrintPiece(chessPieces[i, j], false);
+                PrintPiece(pieces[i, j], false);
             }
             Console.WriteLine();
         }
 
-        Console.WriteLine("  a b c d e f g h");
+        Console.WriteLine(COLUMNS);
     }
 
-    internal static void PrintBoard(ChessPiece[,] pieces, bool[,] possibleMoves)
+    private void PrintBoard(bool[,] possibleMoves)
     {
+        ChessPiece[,] pieces = chessMatch.GetPieces();
+
         Console.Clear();
 
         for (int i = 0; i < Board.BOARD_SIZE; i++)
@@ -40,7 +76,7 @@ internal static class UI
             Console.WriteLine();
         }
 
-        Console.WriteLine("  a b c d e f g h");
+        Console.WriteLine(COLUMNS);
     }
 
     internal static ChessPosition ReadChessPosition(string message)
