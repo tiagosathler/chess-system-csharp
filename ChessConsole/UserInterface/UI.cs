@@ -42,6 +42,11 @@ internal sealed class UI
             case Color.WHITE: { Console.WriteLine($"{Colors.WHITE}{message}{Colors.RESET}"); break; }
             case Color.BLACK: { Console.WriteLine($"{Colors.YELLOW}{message}{Colors.RESET}"); break; }
         }
+
+        if (chessMatch.Check)
+        {
+            Console.WriteLine($"{Colors.PURPLE}Check !!!{Colors.RESET}");
+        }
     }
 
     private void PrintCapturedPieces()
