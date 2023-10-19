@@ -5,6 +5,8 @@ namespace ChessConsole.Pieces;
 
 internal class Knight : ChessPiece
 {
+    public override string Symbol => Symbols.Knight;
+
     public Knight(Board board, Color color) : base(board, color)
     {
     }
@@ -90,10 +92,5 @@ internal class Knight : ChessPiece
         }
 
         return mat;
-    }
-
-    public override string ToString()
-    {
-        return "N";
     }
 }

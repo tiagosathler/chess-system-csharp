@@ -5,6 +5,8 @@ namespace ChessConsole.Pieces;
 
 internal sealed class Rook : ChessPiece
 {
+    public override string Symbol => Symbols.Rook;
+
     public Rook(Board board, Color color) : base(board, color)
     {
     }
@@ -64,10 +66,5 @@ internal sealed class Rook : ChessPiece
         }
 
         return mat;
-    }
-
-    public override string ToString()
-    {
-        return "R";
     }
 }

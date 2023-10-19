@@ -6,6 +6,7 @@ namespace ChessConsole.Pieces;
 internal sealed class King : ChessPiece
 {
     private readonly ChessMatch chessMatch;
+    public override string Symbol => Symbols.King;
 
     public King(Board board, Color color, ChessMatch chessMatch) : base(board, color)
     {
@@ -114,10 +115,5 @@ internal sealed class King : ChessPiece
     private bool CanMove(Position position)
     {
         return Board.Piece(position) is not ChessPiece p || !p.Color.Equals(Color);
-    }
-
-    public override string ToString()
-    {
-        return "K";
     }
 }

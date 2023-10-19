@@ -5,6 +5,8 @@ namespace ChessConsole.Pieces;
 
 internal class Bishop : ChessPiece
 {
+    public override string Symbol => Symbols.Bishop;
+
     public Bishop(Board board, Color color) : base(board, color)
     {
     }
@@ -64,10 +66,5 @@ internal class Bishop : ChessPiece
         }
 
         return mat;
-    }
-
-    public override string ToString()
-    {
-        return "B";
     }
 }

@@ -5,6 +5,8 @@ namespace ChessConsole.Pieces;
 
 internal class Queen : ChessPiece
 {
+    public override string Symbol => Symbols.Queen;
+
     public Queen(Board board, Color color) : base(board, color)
     {
     }
@@ -112,10 +114,5 @@ internal class Queen : ChessPiece
         }
 
         return mat;
-    }
-
-    public override string ToString()
-    {
-        return "Q";
     }
 }

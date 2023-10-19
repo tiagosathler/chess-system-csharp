@@ -5,6 +5,8 @@ namespace ChessConsole.Pieces;
 
 internal class Pawn : ChessPiece
 {
+    public override string Symbol => Symbols.Pawn;
+
     private readonly ChessMatch chessMatch;
 
     public Pawn(Board board, Color color, ChessMatch chessMatch) : base(board, color)
@@ -120,10 +122,5 @@ internal class Pawn : ChessPiece
         }
 
         return mat;
-    }
-
-    public override string ToString()
-    {
-        return "P";
     }
 }
