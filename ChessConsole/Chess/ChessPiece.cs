@@ -6,6 +6,7 @@ internal abstract class ChessPiece : Piece
 {
     public Color Color { get; }
     public int MoveCount { get; private set; }
+    public abstract string Symbol { get; }
 
     protected ChessPiece(Board board, Color color) : base(board)
     {
@@ -25,5 +26,10 @@ internal abstract class ChessPiece : Piece
     protected internal void DecreaseMoveCount()
     {
         MoveCount--;
+    }
+
+    public override sealed string ToString()
+    {
+        return Symbol;
     }
 }
