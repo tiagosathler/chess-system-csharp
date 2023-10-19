@@ -106,7 +106,10 @@ internal sealed class ChessMatch
             throw new ChessException("There is no piece to be promoted!");
         }
 
-        if (!type.Equals("B") && !type.Equals("N") && !type.Equals("R") && !type.Equals("Q"))
+        if (!type.Equals(Symbols.Bishop)
+            && !type.Equals(Symbols.Knight)
+            && !type.Equals(Symbols.Rook)
+            && !type.Equals(Symbols.Queen))
         {
             return Promoted;
         }

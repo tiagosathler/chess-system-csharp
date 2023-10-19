@@ -1,5 +1,6 @@
 ﻿using ChessConsole.Boardgame;
 using ChessConsole.Chess;
+using ChessConsole.Pieces;
 using System.Text;
 
 namespace ChessConsole.UserInterface;
@@ -175,13 +176,13 @@ internal sealed class UI
 
     internal static string ReadPieceForPromotion()
     {
-        Console.Write("Enter piece for promotion (B/N/R/Q): ");
+        Console.Write($"Enter piece for promotion ({Symbols.Bishop}/{Symbols.Knight}/{Symbols.Rook}/{Symbols.Queen}): ");
         String? choosen = Console.ReadLine();
 
         if (!String.IsNullOrWhiteSpace(choosen))
         {
             return choosen.Trim().ToUpper();
         }
-        return "Q";
+        return Symbols.Queen;
     }
 }
