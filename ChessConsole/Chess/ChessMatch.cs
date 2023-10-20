@@ -199,7 +199,7 @@ internal sealed class ChessMatch
     {
         ChessPiece movedPiece = (ChessPiece)board.Piece(target)!;
 
-        // special move - promotion
+        // special move - promotion - defaulting to the Queen chess piece
         Promoted = null;
 
         if (board.Piece(target) is Pawn &&
