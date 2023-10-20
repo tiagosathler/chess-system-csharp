@@ -13,12 +13,6 @@ internal sealed class King : ChessPiece
         this.chessMatch = chessMatch;
     }
 
-    private bool TestRookCastling(Position postion)
-    {
-        ChessPiece? chessPiece = Board.Piece(postion) as ChessPiece;
-        return chessPiece is Rook && chessPiece.Color.Equals(Color) && chessPiece.MoveCount == 0;
-    }
-
     protected internal override bool[,] PossibleMoves()
     {
         bool[,] mat = new bool[Board.BOARD_SIZE, Board.BOARD_SIZE];
@@ -82,7 +76,7 @@ internal sealed class King : ChessPiece
         }
 
         // # special move castling
-        if (MoveCount == 0 && !chessMatch.Check)
+        if (MoveCount == 0 && !chessMatch.IsItCheck)
         {
             // to king-side rook
             Position postT1 = new(Position.Row, Position.Column + 3);
@@ -110,6 +104,12 @@ internal sealed class King : ChessPiece
             }
         }
         return mat;
+    }
+
+    private bool TestRookCastling(Position position)
+    {
+        ChessPiece? chessPiece = Board.Piece(position) as ChessPiece;
+        return chessPiece is Rook && chessPiece.Color.Equals(Color) && chessPiece.MoveCount == 0;
     }
 
     private bool CanMove(Position position)
