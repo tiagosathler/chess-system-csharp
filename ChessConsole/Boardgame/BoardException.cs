@@ -1,6 +1,8 @@
-﻿namespace ChessConsole.Boardgame;
+﻿using ChessConsole.Chess;
 
-public class BoardException : ApplicationException
+namespace ChessConsole.Boardgame;
+
+public class BoardException : ChessException
 {
     public BoardException()
     {
