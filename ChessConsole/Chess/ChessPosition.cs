@@ -7,9 +7,6 @@ internal sealed class ChessPosition
     private const char FIRST_CHAR = 'a';
     private const char LAST_CHAR = 'h';
 
-    public char Column { get; }
-    public int Row { get; }
-
     public ChessPosition(char column, int row)
     {
         if (char.ToLower(column) < FIRST_CHAR || char.ToLower(column) > LAST_CHAR || row < 1 || row > Board.BOARD_SIZE)
@@ -20,6 +17,9 @@ internal sealed class ChessPosition
         Row = row;
         Column = char.ToLower(column);
     }
+
+    public char Column { get; }
+    public int Row { get; }
 
     public static ChessPosition FromPosition(Position position)
     {

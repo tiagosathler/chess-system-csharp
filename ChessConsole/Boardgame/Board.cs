@@ -4,9 +4,6 @@ internal sealed class Board
 {
     public static readonly int BOARD_SIZE = 8;
 
-    public int Rows { get; }
-    public int Columns { get; }
-
     private readonly Piece?[,] pieces;
 
     public Board(int rows, int columns)
@@ -18,6 +15,14 @@ internal sealed class Board
         Rows = rows;
         Columns = columns;
         pieces = new Piece[Rows, Columns];
+    }
+
+    public int Columns { get; }
+    public int Rows { get; }
+
+    public bool IsThereAPiece(Position position)
+    {
+        return Piece(position) != null;
     }
 
     public Piece? Piece(Position position)
@@ -44,20 +49,6 @@ internal sealed class Board
         piece.Position = position;
     }
 
-    public Piece? RemovePiece(Position position)
-    {
-        Piece? foundPiece = Piece(position);
-
-        if (foundPiece != null)
-        {
-            foundPiece.Position = null;
-            pieces[position.Row, position.Column] = null;
-            return foundPiece;
-        }
-
-        return null;
-    }
-
     public bool PositionExists(int row, int column)
     {
         return row >= 0
@@ -71,8 +62,17 @@ internal sealed class Board
         return PositionExists(position.Row, position.Column);
     }
 
-    public bool IsThereAPiece(Position position)
+    public Piece? RemovePiece(Position position)
     {
-        return Piece(position) != null;
+        Piece? foundPiece = Piece(position);
+
+        if (foundPiece != null)
+        {
+            foundPiece.Position = null;
+            pieces[position.Row, position.Column] = null;
+            return foundPiece;
+        }
+
+        return null;
     }
 }

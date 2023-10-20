@@ -5,16 +5,11 @@ namespace ChessConsole.Pieces;
 
 internal sealed class Knight : ChessPiece
 {
-    public override string Symbol => Symbols.Knight;
-
     public Knight(Board board, Color color) : base(board, color)
     {
     }
 
-    private bool CanMove(Position position)
-    {
-        return Board.Piece(position) is not ChessPiece chessPiece || chessPiece.Color != Color;
-    }
+    public override string Symbol => Symbols.Knight;
 
     protected internal override bool[,] PossibleMoves()
     {
@@ -92,5 +87,10 @@ internal sealed class Knight : ChessPiece
         }
 
         return mat;
+    }
+
+    private bool CanMove(Position position)
+    {
+        return Board.Piece(position) is not ChessPiece chessPiece || chessPiece.Color != Color;
     }
 }

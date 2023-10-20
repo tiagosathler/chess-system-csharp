@@ -5,11 +5,11 @@ namespace ChessConsole.Pieces;
 
 internal sealed class Queen : ChessPiece
 {
-    public override string Symbol => Symbols.Queen;
-
     public Queen(Board board, Color color) : base(board, color)
     {
     }
+
+    public override string Symbol => Symbols.Queen;
 
     protected internal override bool[,] PossibleMoves()
     {

@@ -5,14 +5,14 @@ namespace ChessConsole.Pieces;
 
 internal sealed class Pawn : ChessPiece
 {
-    public override string Symbol => Symbols.Pawn;
-
     private readonly ChessMatch chessMatch;
 
     public Pawn(Board board, Color color, ChessMatch chessMatch) : base(board, color)
     {
         this.chessMatch = chessMatch;
     }
+
+    public override string Symbol => Symbols.Pawn;
 
     protected internal override bool[,] PossibleMoves()
     {

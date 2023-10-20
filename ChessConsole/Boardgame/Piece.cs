@@ -2,22 +2,14 @@
 
 internal abstract class Piece
 {
-    public Position? Position { get; set; }
-
-    public Board Board { get; }
-
     protected Piece(Board board)
     {
         Board = board;
         Position = null;
     }
 
-    protected internal abstract bool[,] PossibleMoves();
-
-    public bool PossibleMove(Position position)
-    {
-        return PossibleMoves()[position.Row, position.Column];
-    }
+    public Board Board { get; }
+    public Position? Position { get; set; }
 
     public bool IsThereAnyPossibleMove()
     {
@@ -36,4 +28,11 @@ internal abstract class Piece
 
         return false;
     }
+
+    public bool PossibleMove(Position position)
+    {
+        return PossibleMoves()[position.Row, position.Column];
+    }
+
+    protected internal abstract bool[,] PossibleMoves();
 }

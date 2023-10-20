@@ -6,12 +6,13 @@ namespace ChessConsole.Pieces;
 internal sealed class King : ChessPiece
 {
     private readonly ChessMatch chessMatch;
-    public override string Symbol => Symbols.King;
 
     public King(Board board, Color color, ChessMatch chessMatch) : base(board, color)
     {
         this.chessMatch = chessMatch;
     }
+
+    public override string Symbol => Symbols.King;
 
     protected internal override bool[,] PossibleMoves()
     {
@@ -106,14 +107,14 @@ internal sealed class King : ChessPiece
         return mat;
     }
 
+    private bool CanMove(Position position)
+    {
+        return Board.Piece(position) is not ChessPiece p || !p.Color.Equals(Color);
+    }
+
     private bool TestRookCastling(Position position)
     {
         ChessPiece? chessPiece = Board.Piece(position) as ChessPiece;
         return chessPiece is Rook && chessPiece.Color.Equals(Color) && chessPiece.MoveCount == 0;
-    }
-
-    private bool CanMove(Position position)
-    {
-        return Board.Piece(position) is not ChessPiece p || !p.Color.Equals(Color);
     }
 }

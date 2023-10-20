@@ -5,11 +5,11 @@ namespace ChessConsole.Pieces;
 
 internal sealed class Bishop : ChessPiece
 {
-    public override string Symbol => Symbols.Bishop;
-
     public Bishop(Board board, Color color) : base(board, color)
     {
     }
+
+    public override string Symbol => Symbols.Bishop;
 
     protected internal override bool[,] PossibleMoves()
     {

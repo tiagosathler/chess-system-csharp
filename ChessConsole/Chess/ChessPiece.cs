@@ -4,23 +4,18 @@ namespace ChessConsole.Chess;
 
 internal abstract class ChessPiece : Piece
 {
-    public Color Color { get; }
-    public int MoveCount { get; private set; }
-    public abstract string Symbol { get; }
-
     protected ChessPiece(Board board, Color color) : base(board)
     {
         Color = color;
     }
 
-    protected internal bool IsThereOpponentPiece(Position position)
-    {
-        return Board.Piece(position) is ChessPiece otherPiece && !otherPiece.Color.Equals(Color);
-    }
+    public Color Color { get; }
+    public int MoveCount { get; private set; }
+    public abstract string Symbol { get; }
 
-    protected internal void IncreaseMoveCount()
+    public override sealed string ToString()
     {
-        MoveCount++;
+        return Symbol;
     }
 
     protected internal void DecreaseMoveCount()
@@ -28,8 +23,13 @@ internal abstract class ChessPiece : Piece
         MoveCount--;
     }
 
-    public override sealed string ToString()
+    protected internal void IncreaseMoveCount()
     {
-        return Symbol;
+        MoveCount++;
+    }
+
+    protected internal bool IsThereOpponentPiece(Position position)
+    {
+        return Board.Piece(position) is ChessPiece otherPiece && !otherPiece.Color.Equals(Color);
     }
 }
