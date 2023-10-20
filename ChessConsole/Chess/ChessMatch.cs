@@ -383,7 +383,6 @@ internal sealed class ChessMatch
         PlaceNewPiece('f', 2, new Pawn(board, Color.WHITE, this));
         PlaceNewPiece('g', 2, new Pawn(board, Color.WHITE, this));
         PlaceNewPiece('h', 2, new Pawn(board, Color.WHITE, this));
-        PlaceNewPiece('a', 8, new King(board, Color.BLACK, this));
 
         PlaceNewPiece('a', 8, new Rook(board, Color.BLACK));
         PlaceNewPiece('b', 8, new Knight(board, Color.BLACK));
