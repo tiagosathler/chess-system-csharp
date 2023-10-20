@@ -22,12 +22,6 @@ internal sealed class UI
         PrintHead();
     }
 
-    public void PrintSecondActOfTheMatch(bool[,] possibleMoves)
-    {
-        PrintBoard(possibleMoves);
-        PrintHead();
-    }
-
     public void PrintResult()
     {
         Console.WriteLine($"\n\x1b[1m{Colors.GREEN}CKECKMATE !!!{Colors.RESET}");
@@ -41,6 +35,20 @@ internal sealed class UI
         }
 
         Console.WriteLine($"\n\x1b[1m{Colors.GREEN}Winner: {winner}{Colors.RESET}");
+    }
+
+    public void PrintSecondActOfTheMatch(bool[,] possibleMoves)
+    {
+        PrintBoard(possibleMoves);
+        PrintHead();
+    }
+
+    internal static void PrintErrorMessage(string message)
+    {
+        Console.WriteLine(message);
+        Console.WriteLine("Press any key to continue...");
+        Console.ReadLine();
+        Console.Clear();
     }
 
     internal static ChessPosition ReadChessPosition(string message)
@@ -64,22 +72,53 @@ internal sealed class UI
 
     internal static string ReadPieceForPromotion()
     {
-        Console.Write($"Enter piece for promotion ({Symbols.Bishop}/{Symbols.Knight}/{Symbols.Rook}/{Symbols.Queen}): ");
-        string? choosen = Console.ReadLine();
-
-        if (!string.IsNullOrWhiteSpace(choosen))
+        string? choosen;
+        bool isItInvalidChoosen = true;
+        do
         {
-            return choosen.Trim().ToUpper();
-        }
-        return Symbols.Queen;
+            Console.Write($"Enter piece for promotion ({Symbols.Bishop}/{Symbols.Knight}/{Symbols.Rook}/{Symbols.Queen}): ");
+            choosen = Console.ReadLine();
+
+            if (!string.IsNullOrWhiteSpace(choosen))
+            {
+                choosen = choosen.Trim().ToUpper();
+                isItInvalidChoosen =
+                    !(choosen.Equals(Symbols.Bishop)
+                    || choosen.Equals(Symbols.Knight)
+                    || choosen.Equals(Symbols.Rook)
+                    || choosen.Equals(Symbols.Queen));
+            }
+        } while (isItInvalidChoosen);
+
+        return choosen!;
     }
 
-    internal static void PrintErrorMessage(string message)
+    private static void PrintPiece(ChessPiece chessPiece, bool background)
     {
-        Console.WriteLine(message);
-        Console.WriteLine("Press any key to continue...");
-        Console.ReadLine();
-        Console.Clear();
+        if (background)
+        {
+            Console.Write($"{BackgroundColors.BLUE}");
+        }
+        if (chessPiece == null)
+        {
+            Console.Write($"{Colors.GREEN}-{Colors.RESET}");
+        }
+        else
+        {
+            StringBuilder sb = new("\x1b[1m");
+
+            switch (chessPiece.Color)
+            {
+                case Color.WHITE: { sb.Append(Colors.WHITE); break; }
+                case Color.BLACK: { sb.Append(Colors.YELLOW); break; }
+            }
+
+            sb.Append(chessPiece);
+            sb.Append(Colors.RESET);
+
+            Console.Write(sb);
+        }
+        Console.Write(" ");
     }
 
     private void PrintBoard()
@@ -122,6 +161,20 @@ internal sealed class UI
         Console.WriteLine(COLUMNS);
     }
 
+    private void PrintCapturedPieces()
+    {
+        List<ChessPiece> whiteChessPieces = chessMatch.CapturedChessPieces.FindAll(p => p.Color.Equals(Color.WHITE));
+        List<ChessPiece> blackChessPieces = chessMatch.CapturedChessPieces.FindAll(p => p.Color.Equals(Color.BLACK));
+
+        Console.WriteLine($"{Colors.RED}\x1b[1m--------------------------------");
+        Console.WriteLine($"Captured pieces:{Colors.RESET}");
+
+        Console.WriteLine($"{Colors.WHITE}White: [{String.Join(",", whiteChessPieces)}]{Colors.RESET}");
+        Console.WriteLine($"{Colors.YELLOW}Black: [{String.Join(",", blackChessPieces)}]{Colors.RESET}");
+
+        Console.WriteLine($"{Colors.RED}\x1b[1m--------------------------------{Colors.RESET}\n");
+    }
+
     private void PrintHead()
     {
         if (chessMatch.CapturedChessPieces.Count > 0)
@@ -146,47 +199,5 @@ internal sealed class UI
                 case Color.BLACK: { Console.WriteLine($"{Colors.YELLOW}{message}{Colors.RESET}"); break; }
             }
         }
-    }
-
-    private void PrintCapturedPieces()
-    {
-        List<ChessPiece> whiteChessPieces = chessMatch.CapturedChessPieces.FindAll(p => p.Color.Equals(Color.WHITE));
-        List<ChessPiece> blackChessPieces = chessMatch.CapturedChessPieces.FindAll(p => p.Color.Equals(Color.BLACK));
-
-        Console.WriteLine($"{Colors.RED}\x1b[1m--------------------------------");
-        Console.WriteLine($"Captured pieces:{Colors.RESET}");
-
-        Console.WriteLine($"{Colors.WHITE}White: [{String.Join(",", whiteChessPieces)}]{Colors.RESET}");
-        Console.WriteLine($"{Colors.YELLOW}Black: [{String.Join(",", blackChessPieces)}]{Colors.RESET}");
-
-        Console.WriteLine($"{Colors.RED}\x1b[1m--------------------------------{Colors.RESET}\n");
-    }
-
-    private static void PrintPiece(ChessPiece chessPiece, bool background)
-    {
-        if (background)
-        {
-            Console.Write($"{BackgroundColors.BLUE}");
-        }
-        if (chessPiece == null)
-        {
-            Console.Write($"{Colors.GREEN}-{Colors.RESET}");
-        }
-        else
-        {
-            StringBuilder sb = new("\x1b[1m");
-
-            switch (chessPiece.Color)
-            {
-                case Color.WHITE: { sb.Append(Colors.WHITE); break; }
-                case Color.BLACK: { sb.Append(Colors.YELLOW); break; }
-            }
-
-            sb.Append(chessPiece);
-            sb.Append(Colors.RESET);
-
-            Console.Write(sb);
-        }
-        Console.Write(" ");
     }
 }
