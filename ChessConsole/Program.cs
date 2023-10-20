@@ -10,7 +10,7 @@ internal static class Program
         ChessMatch chessMatch = new();
         UI ui = new(chessMatch);
 
-        while (!chessMatch.CheckMate)
+        while (!chessMatch.IsItCheckMate)
         {
             try
             {
@@ -26,7 +26,7 @@ internal static class Program
 
                 chessMatch.PerformChessMove(source, target);
 
-                if (!chessMatch.CheckMate && chessMatch.Promoted != null)
+                if (!chessMatch.IsItCheckMate && chessMatch.Promoted != null)
                 {
                     string type = UI.ReadPieceForPromotion();
                     chessMatch.ReplacePromotedPiece(type);
