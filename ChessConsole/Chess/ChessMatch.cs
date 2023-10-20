@@ -8,12 +8,14 @@ internal sealed class ChessMatch
 {
     public int Turn { get; private set; }
     public Color CurrentPlayer { get; private set; }
+    public Color CurrentOpponentPlayer { get; private set; }
     public bool IsItCheck { get; private set; }
     public bool IsItCheckMate { get; private set; }
     public ChessPiece? EnPassantVulnerable { get; private set; }
     public ChessPiece? Promoted { get; private set; }
     public List<ChessPiece> CapturedChessPieces { get; }
-    public List<ChessPiece> ChessPiecesOnTheBoard { get; }
+
+    private readonly List<ChessPiece> chessPiecesOnTheBoard;
 
     private readonly Board board;
 
@@ -21,9 +23,9 @@ internal sealed class ChessMatch
     {
         board = new Board(Board.BOARD_SIZE, Board.BOARD_SIZE);
         CapturedChessPieces = new();
-        ChessPiecesOnTheBoard = new();
+        chessPiecesOnTheBoard = new();
         Turn = 1;
-        CurrentPlayer = Color.WHITE;
+        (CurrentPlayer, CurrentOpponentPlayer) = (Color.WHITE, Color.BLACK);
         InitialSetup();
     }
 
@@ -87,11 +89,11 @@ internal sealed class ChessMatch
 
         Position position = Promoted.Position!;
         ChessPiece removedPiece = (ChessPiece)board.RemovePiece(position)!;
-        ChessPiecesOnTheBoard.Remove(removedPiece);
+        chessPiecesOnTheBoard.Remove(removedPiece);
 
         ChessPiece newPiece = NewPiece(typeOfChessPiece, Promoted.Color);
         board.PlacePiece(newPiece, position);
-        ChessPiecesOnTheBoard.Add(newPiece);
+        chessPiecesOnTheBoard.Add(newPiece);
 
         return newPiece;
     }
@@ -216,11 +218,11 @@ internal sealed class ChessMatch
 
     private void AnalyzeCheckmateStatus()
     {
-        IsItCheck = TestCheck(CurrentOpponentPlayer());
+        IsItCheck = TestCheck(CurrentOpponentPlayer);
 
         if (IsItCheck)
         {
-            IsItCheckMate = TestCheckMate(CurrentOpponentPlayer());
+            IsItCheckMate = TestCheckMate(CurrentOpponentPlayer);
         }
 
         if (!IsItCheckMate)
@@ -232,7 +234,7 @@ internal sealed class ChessMatch
     private void UpdateChessPieces(ChessPiece capturedPiece)
     {
         CapturedChessPieces.Add(capturedPiece);
-        ChessPiecesOnTheBoard.Remove(capturedPiece);
+        chessPiecesOnTheBoard.Remove(capturedPiece);
     }
 
     private void UndoMove(Position source, Position target, ChessPiece? capturedPiece)
@@ -246,7 +248,7 @@ internal sealed class ChessMatch
         {
             board.PlacePiece(capturedPiece, target);
             CapturedChessPieces.Remove(capturedPiece);
-            ChessPiecesOnTheBoard.Add(capturedPiece);
+            chessPiecesOnTheBoard.Add(capturedPiece);
         }
 
         // reverting special move: castling to king-side rook
@@ -293,7 +295,7 @@ internal sealed class ChessMatch
     {
         ChessPiece king = FindTheKing(color);
 
-        foreach (ChessPiece p in ChessPiecesOnTheBoard.FindAll(p => !p.Color.Equals(color)))
+        foreach (ChessPiece p in chessPiecesOnTheBoard.FindAll(p => !p.Color.Equals(color)))
         {
             bool[,] mat = p.PossibleMoves();
 
@@ -312,7 +314,7 @@ internal sealed class ChessMatch
             return false;
         }
 
-        foreach (ChessPiece chessPiece in ChessPiecesOnTheBoard.FindAll(p => p.Color.Equals(color)))
+        foreach (ChessPiece chessPiece in chessPiecesOnTheBoard.FindAll(p => p.Color.Equals(color)))
         {
             bool[,] possibleMoves = chessPiece.PossibleMoves();
 
@@ -344,25 +346,20 @@ internal sealed class ChessMatch
 
     private ChessPiece FindTheKing(Color color)
     {
-        return ChessPiecesOnTheBoard.Find(p => p is King && p.Color.Equals(color))
+        return chessPiecesOnTheBoard.Find(p => p is King && p.Color.Equals(color))
             ?? throw new ChessException($"There is not {CurrentPlayer} king on the board!");
-    }
-
-    private Color CurrentOpponentPlayer()
-    {
-        return CurrentPlayer.Equals(Color.WHITE) ? Color.BLACK : Color.WHITE;
     }
 
     private void NextTurn()
     {
         Turn++;
-        CurrentPlayer = CurrentOpponentPlayer();
+        (CurrentPlayer, CurrentOpponentPlayer) = (CurrentOpponentPlayer, CurrentPlayer);
     }
 
     private void PlaceNewPiece(char column, int row, ChessPiece chessPiece)
     {
         board.PlacePiece(chessPiece, new ChessPosition(column, row).ToPosition());
-        ChessPiecesOnTheBoard.Add(chessPiece);
+        chessPiecesOnTheBoard.Add(chessPiece);
     }
 
     private void InitialSetup()
