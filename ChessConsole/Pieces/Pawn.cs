@@ -3,7 +3,7 @@ using ChessConsole.Chess;
 
 namespace ChessConsole.Pieces;
 
-internal class Pawn : ChessPiece
+internal sealed class Pawn : ChessPiece
 {
     public override string Symbol => Symbols.Pawn;
 
