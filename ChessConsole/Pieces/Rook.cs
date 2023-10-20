@@ -17,7 +17,7 @@ internal sealed class Rook : ChessPiece
 
         Position p = new(0, 0);
 
-        // above:
+        // 🧭 N:
         p.SetValues(Position!.Row - 1, Position!.Column);
         while (Board.PositionExists(p) && !Board.IsThereAPiece(p))
         {
@@ -29,7 +29,7 @@ internal sealed class Rook : ChessPiece
             mat[p.Row, p.Column] = true;
         }
 
-        // left:
+        // 🧭 W:
         p.SetValues(Position!.Row, Position!.Column - 1);
         while (Board.PositionExists(p) && !Board.IsThereAPiece(p))
         {
@@ -41,7 +41,7 @@ internal sealed class Rook : ChessPiece
             mat[p.Row, p.Column] = true;
         }
 
-        // left:
+        // 🧭 E:
         p.SetValues(Position!.Row, Position!.Column + 1);
         while (Board.PositionExists(p) && !Board.IsThereAPiece(p))
         {
@@ -53,7 +53,7 @@ internal sealed class Rook : ChessPiece
             mat[p.Row, p.Column] = true;
         }
 
-        // bellow:
+        // 🧭 S:
         p.SetValues(Position.Row + 1, Position.Column);
         while (Board.PositionExists(p) && !Board.IsThereAPiece(p))
         {

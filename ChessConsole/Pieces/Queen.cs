@@ -29,7 +29,7 @@ internal class Queen : ChessPiece
             mat[p.Row, p.Column] = true;
         }
 
-        // 🧭 E:
+        // 🧭 W:
         p.SetValues(Position.Row, Position.Column - 1);
         while (Board.PositionExists(p) && !Board.IsThereAPiece(p))
         {
@@ -41,7 +41,7 @@ internal class Queen : ChessPiece
             mat[p.Row, p.Column] = true;
         }
 
-        // 🧭 W:
+        // 🧭 E:
         p.SetValues(Position.Row, Position.Column + 1);
         while (Board.PositionExists(p) && !Board.IsThereAPiece(p))
         {

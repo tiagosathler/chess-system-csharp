@@ -34,28 +34,28 @@ internal class Knight : ChessPiece
 		 */
 
         // clockwise movements
-        // N -> E
+        // 🧭 🔃 N -> E
         p.SetValues(Position!.Row + 2, Position!.Column + 1);
         if (Board.PositionExists(p) && CanMove(p))
         {
             mat[p.Row, p.Column] = true;
         }
 
-        // E -> S
+        // 🧭 🔃 E -> S
         p.SetValues(Position.Row - 1, Position.Column + 2);
         if (Board.PositionExists(p) && CanMove(p))
         {
             mat[p.Row, p.Column] = true;
         }
 
-        // S -> W
+        // 🧭 🔃 S -> W
         p.SetValues(Position.Row - 2, Position.Column - 1);
         if (Board.PositionExists(p) && CanMove(p))
         {
             mat[p.Row, p.Column] = true;
         }
 
-        // W -> N
+        // 🧭 🔃 W -> N
         p.SetValues(Position.Row + 1, Position.Column - 2);
         if (Board.PositionExists(p) && CanMove(p))
         {
@@ -63,28 +63,28 @@ internal class Knight : ChessPiece
         }
 
         // anti-clockwise movements
-        // N -> W
+        // 🧭 🔄 N -> W
         p.SetValues(Position.Row + 2, Position.Column - 1);
         if (Board.PositionExists(p) && CanMove(p))
         {
             mat[p.Row, p.Column] = true;
         }
 
-        // W -> S
+        // 🧭 🔄 W -> S
         p.SetValues(Position.Row - 1, Position.Column - 2);
         if (Board.PositionExists(p) && CanMove(p))
         {
             mat[p.Row, p.Column] = true;
         }
 
-        // S -> E
+        // 🧭 🔄 S -> E
         p.SetValues(Position.Row - 2, Position.Column + 1);
         if (Board.PositionExists(p) && CanMove(p))
         {
             mat[p.Row, p.Column] = true;
         }
 
-        // E -> N
+        // 🧭 🔄 E -> N
         p.SetValues(Position.Row + 1, Position.Column + 2);
         if (Board.PositionExists(p) && CanMove(p))
         {
